@@ -1,0 +1,31 @@
+---
+const pathname = Astro.url.pathname;
+const links = [
+  { href: '/ideas/', label: 'Ideas' },
+  { href: '/about/', label: 'About' },
+  { href: '/method/', label: 'Method' },
+];
+---
+
+<header class="site-header">
+  <div class="shell header-inner">
+    <a class="brand" href="/" aria-label="Vision for Bharat home">
+      <span class="brand-mark" aria-hidden="true">V</span>
+      <span>
+        <strong>Vision for Bharat</strong>
+        <small>Notes towards 2075</small>
+      </span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <ul>
+        {links.map((link) => (
+          <li>
+            <a href={link.href} aria-current={pathname.startsWith(link.href) ? 'page' : undefined}>
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>

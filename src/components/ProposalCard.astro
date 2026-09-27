@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, STATUS_LABELS, topicSlug } from '../consts';
+
+interface Props {
+  proposal: CollectionEntry<'proposals'>;
+  index?: number;
+}
+
+const { proposal, index } = Astro.props;
+const { title, summary, status, topics, publishedAt } = proposal.data;
+---
+
+<article class="proposal-card">
+  {index && <span class="proposal-number" aria-hidden="true">{String(index).padStart(2, '0')}</span>}
+  <div class="proposal-card-body">
+    <div class="eyebrow-row">
+      <a class="topic-link" href={`/topics/${topicSlug(topics[0])}/`}>{topics[0]}</a>
+      <span>·</span>
+      <span>{STATUS_LABELS[status]}</span>
+    </div>
+    <h3><a href={`/ideas/${proposal.id}/`}>{title}</a></h3>
+    <p>{summary}</p>
+    <div class="card-meta">
+      <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time>
+      <a class="read-link" href={`/ideas/${proposal.id}/`} aria-label={`Read ${title}`}>
+        Read idea <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+</article>

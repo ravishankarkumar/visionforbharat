@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProposalCard from '../../components/ProposalCard.astro';
+
+const proposals = (await getCollection('proposals', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+---
+
+<BaseLayout title="Ideas" description="Constructive proposals and long-term questions for India’s future.">
+  <header class="page-intro">
+    <div class="shell">
+      <p class="kicker">The archive</p>
+      <h1>Ideas built to be examined.</h1>
+      <p class="lead">A growing record of proposals, counterarguments, and open questions. Every entry shows its editorial status because an honest draft is more useful than artificial certainty.</p>
+    </div>
+  </header>
+  <section class="archive shell" aria-label="All ideas">
+    <div class="archive-note"><span>{proposals.length} proposals</span><span>Newest first</span></div>
+    <div class="proposal-list">
+      {proposals.map((proposal, index) => <ProposalCard proposal={proposal} index={index + 1} />)}
+    </div>
+  </section>
+</BaseLayout>

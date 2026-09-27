@@ -1,0 +1,23 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import ProposalLayout from '../../layouts/ProposalLayout.astro';
+
+export async function getStaticPaths() {
+  const proposals = await getCollection('proposals', ({ data }) => !data.draft);
+  return proposals.map((proposal) => ({ params: { slug: proposal.id }, props: { proposal, proposals } }));
+}
+
+interface Props {
+  proposal: CollectionEntry<'proposals'>;
+  proposals: CollectionEntry<'proposals'>[];
+}
+
+const { proposal, proposals } = Astro.props;
+const { Content } = await render(proposal);
+const relatedIds = proposal.data.related ?? [];
+const related = proposals.filter((item) => relatedIds.includes(item.id));
+---
+
+<ProposalLayout proposal={proposal} related={related}>
+  <Content />
+</ProposalLayout>
