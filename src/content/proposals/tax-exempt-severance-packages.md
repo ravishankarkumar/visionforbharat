@@ -4,7 +4,8 @@ summary: Treat qualifying severance as a transition cushion for displaced worker
 thesis: When employment ends involuntarily, public policy should preserve more of the worker’s limited transition capital.
 publishedAt: 2026-09-27
 status: seed
-topics:
+entryType: proposal
+domains:
   - Economy & Labour
 tags:
   - worker security
@@ -12,7 +13,7 @@ tags:
   - economic transitions
 featured: true
 related:
-  - one-nation-one-vehicle-registration
+  - one-nation-one-experience
 draft: false
 ---
 

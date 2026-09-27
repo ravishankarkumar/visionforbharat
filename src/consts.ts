@@ -10,8 +10,20 @@ export const STATUS_LABELS = {
   revised: 'Revised proposal',
 } as const;
 
-export function topicSlug(topic: string) {
-  return topic
+export const TYPE_LABELS = {
+  foundation: 'Foundation',
+  proposal: 'Proposal',
+  'case-study': 'Case study',
+} as const;
+
+export const TYPE_PLURAL_LABELS = {
+  foundation: 'Foundations',
+  proposal: 'Proposals',
+  'case-study': 'Case studies',
+} as const;
+
+export function slugify(value: string) {
+  return value
     .toLowerCase()
     .replace(/&/g, 'and')
     .replace(/[^a-z0-9]+/g, '-')

@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import ProposalCard from '../components/ProposalCard.astro';
-import { formatDate, STATUS_LABELS, topicSlug } from '../consts';
+import { formatDate, slugify, STATUS_LABELS, TYPE_LABELS } from '../consts';
 
 interface Props {
   proposal: CollectionEntry<'proposals'>;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { proposal, related } = Astro.props;
-const { title, summary, thesis, publishedAt, updatedAt, status, topics, changeNote } = proposal.data;
+const { title, summary, thesis, publishedAt, updatedAt, status, entryType, domains, changeNote, seriesLabel, seriesUrl } = proposal.data;
 const articleJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -28,17 +28,23 @@ const articleJsonLd = {
   <article class="article-shell">
     <header class="article-header shell narrow">
       <a class="back-link" href="/ideas/">← All ideas</a>
+      {seriesLabel && (
+        <p class="series-label">
+          {seriesUrl ? <a href={seriesUrl}>{seriesLabel}</a> : seriesLabel}
+        </p>
+      )}
       <div class="eyebrow-row article-topics">
-        {topics.map((topic, i) => (
+        {domains.map((domain, i) => (
           <>
             {i > 0 && <span>·</span>}
-            <a class="topic-link" href={`/topics/${topicSlug(topic)}/`}>{topic}</a>
+            <a class="topic-link" href={`/domains/${slugify(domain)}/`}>{domain}</a>
           </>
         ))}
       </div>
       <h1>{title}</h1>
       <p class="article-thesis">{thesis}</p>
       <dl class="article-meta">
+        <div><dt>Type</dt><dd>{TYPE_LABELS[entryType]}</dd></div>
         <div><dt>Status</dt><dd>{STATUS_LABELS[status]}</dd></div>
         <div><dt>Published</dt><dd><time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time></dd></div>
         {updatedAt && <div><dt>Revised</dt><dd><time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time></dd></div>}

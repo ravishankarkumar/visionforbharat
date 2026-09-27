@@ -1,26 +1,36 @@
 ---
 title: One Nation, One Vehicle Registration
-summary: Make a vehicle’s identity portable across state borders while preserving legitimate state revenue, enforcement, and federal responsibilities.
-thesis: Moving within India should not force citizens to repeatedly rebuild the administrative identity of a lawfully registered vehicle.
+summary: A special-case exploration of one lifelong national registration that follows the vehicle without burdening its owner after an interstate move.
+thesis: A lawfully registered vehicle should have one national identity for its entire lifecycle; how governments divide regulation, taxation, enforcement, and revenue is not the owner’s administrative burden.
 publishedAt: 2026-09-27
 status: seed
-topics:
+entryType: case-study
+domains:
   - Governance & Mobility
 tags:
   - federalism
   - digital public infrastructure
   - transport
-featured: true
+featured: false
 related:
-  - tax-exempt-severance-packages
+  - one-nation-one-experience
+seriesLabel: Case Study 01 · One Nation, One Experience
+seriesUrl: /ideas/one-nation-one-experience/
+series:
+  name: One Nation, One Experience
+  slug: one-nation-one-experience
+  order: 1
+  parentId: one-nation-one-experience
 draft: false
 ---
 
 ## In brief
 
-A vehicle can cross a state border in hours, but the administrative obligations associated with a permanent move can be slow, fragmented, and difficult to understand. This proposal imagines a durable national vehicle identity that remains with the vehicle throughout its life, while states retain appropriate authority over taxation, enforcement, safety, and local transport policy.
+A vehicle can cross a state border in hours, but the administrative obligations associated with a permanent move can be slow, fragmented, and difficult to understand. This proposal calls for one national registration that remains with the vehicle from its first lawful registration until transfer, export, or scrappage.
 
-The goal is not to erase federalism. It is to make citizen-facing administration interoperable so that moving home does not require unnecessary repetition, uncertainty, or informal intermediation.
+This is a special-case exploration within the broader [One Nation, One Experience](/ideas/one-nation-one-experience/) proposal. States and the Union may continue to divide taxation, regulation, enforcement, and revenue according to law. Their coordination should happen behind the scenes rather than through re-registration, NOCs, repeated documents, or procedural uncertainty imposed on the owner.
+
+The owner would still report genuine changes—such as address, ownership, major modification, theft, or scrappage—but would report each change once through a simple national experience. Moving home by itself would not create a new vehicle identity.
 
 ## Context
 
@@ -30,21 +40,23 @@ This matters because the problem may not be a total absence of national infrastr
 
 ## The blueprint
 
-Give every vehicle a persistent national identity from first registration to scrappage. A move between states would update the vehicle’s operating jurisdiction and owner address without requiring a new identity or a full administrative restart.
+Give every vehicle one persistent national registration from first registration to transfer, export, or scrappage. When an owner changes address, a single update would allow authorised systems to coordinate the vehicle’s current location and any legitimate intergovernmental consequences without issuing a new registration.
 
 The system would include:
 
 1. **One durable vehicle identifier** recognised by every registering and enforcing authority.
 2. **A shared lifecycle record** for ownership, finance interests, insurance, safety inspection, emissions compliance, major alteration, theft, recovery, and scrappage.
-3. **Online jurisdiction changes** with risk-based verification rather than blanket physical visits.
-4. **Transparent state settlement rules** for road tax or user charges when a vehicle’s principal location changes.
+3. **One owner-initiated update** for genuine factual changes, with risk-based verification rather than repeated registration or blanket physical visits.
+4. **Government-to-government settlement rules** for road tax or authorised user charges when a vehicle’s principal location changes.
 5. **Clear access controls** defining which data a citizen, buyer, insurer, lender, police officer, court, or transport authority can see.
 
 ## Implementation
 
 The first step is a process audit, not a new portal. Document every citizen journey for interstate relocation and ownership transfer, then identify which steps protect a real public interest and which merely reproduce information already held by government.
 
-A staged programme could begin with private, non-commercial vehicles that have clear ownership and finance records. States could adopt a common data and settlement standard while retaining the ability to set authorised charges. Commercial fleets, legacy records, disputed ownership, and vehicles with altered specifications would follow through specialised workflows.
+A staged programme could begin with private, non-commercial vehicles that have clear ownership and finance records. States could adopt a common data and settlement standard while retaining their lawful authority to set authorised charges. Commercial fleets, legacy records, disputed ownership, and vehicles with altered specifications would follow through specialised workflows.
+
+The owner should not be asked to determine which government is owed what, apply for refunds from one state, pay another state, or carry paperwork between authorities. Once the citizen reports the relevant change, verification and settlement should be handled institution to institution.
 
 Offline assistance remains necessary. A digital-by-default service should not become digital-only, and no person should need an agent merely to discover the correct process or fee.
 

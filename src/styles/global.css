@@ -144,10 +144,26 @@ h1, h2, h3 { text-wrap: balance; }
 .page-intro .lead { max-width: 46rem; margin-top: 1.5rem; color: var(--ink-soft); font: 400 1.25rem/1.55 var(--display); }
 .archive { padding: 3rem 0 7rem; }
 .archive-note { display: flex; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; color: var(--ink-soft); font-size: .85rem; }
+.catalogue-nav { display: grid; gap: 1rem; padding: 2rem 0; border-bottom: 1px solid var(--rule); }
+.catalogue-nav div { display: flex; flex-wrap: wrap; align-items: baseline; gap: .55rem .8rem; }
+.catalogue-nav span { min-width: 78px; color: var(--ink-soft); font-size: .68rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+.catalogue-nav a { padding: .3rem .65rem; border: 1px solid var(--rule); border-radius: 999px; font-size: .78rem; text-decoration: none; }
+.catalogue { padding: 1rem 0 7rem; }
+.catalogue-group { padding-top: 4rem; scroll-margin-top: 1rem; }
+.catalogue-heading { display: flex; justify-content: space-between; gap: 2rem; align-items: end; margin-bottom: 1.5rem; }
+.catalogue-heading h2 { margin: .25rem 0 0; font: 500 clamp(2rem, 4vw, 3.3rem)/1 var(--display); }
+.catalogue-heading > span { color: var(--terracotta); font: italic 1.3rem var(--display); }
+.domain-grid { display: grid; grid-template-columns: repeat(2, 1fr); list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); border-left: 1px solid var(--rule); }
+.domain-grid li { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.domain-grid a { display: flex; min-height: 150px; padding: 1.5rem; flex-direction: column; justify-content: space-between; font: 500 clamp(1.35rem, 3vw, 2rem)/1.1 var(--display); text-decoration: none; }
+.domain-grid small { color: var(--ink-soft); font: 700 .72rem var(--sans); letter-spacing: .08em; text-transform: uppercase; }
+.catalogue-footnote { margin-top: 2rem; text-align: right; }
 
 .article-header { padding: clamp(4rem, 8vw, 7rem) 0 4rem; }
 .back-link { display: inline-block; margin-bottom: 3rem; color: var(--ink-soft); font-size: .8rem; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: .08em; }
 .article-topics { margin-bottom: 1.25rem; }
+.series-label { margin: 0 0 .7rem; color: var(--indigo); font-size: .72rem; font-weight: 750; letter-spacing: .11em; text-transform: uppercase; }
+.series-label a { text-decoration: none; }
 .article-header h1 { font: 500 clamp(3rem, 7vw, 6.5rem)/.95 var(--display); letter-spacing: -.05em; }
 .article-thesis { max-width: 42rem; color: var(--ink-soft); font: 400 clamp(1.2rem, 2.4vw, 1.6rem)/1.45 var(--display); }
 .article-meta { display: flex; flex-wrap: wrap; gap: 2rem; margin: 2.5rem 0; }
@@ -213,6 +229,7 @@ h1, h2, h3 { text-wrap: balance; }
   .footer-grid { gap: 2rem; }
   .site-footer nav { justify-content: flex-start; }
   .values { grid-template-columns: 1fr; }
+  .domain-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {

@@ -2,14 +2,14 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProposalCard from '../../components/ProposalCard.astro';
-import { topicSlug } from '../../consts';
+import { slugify } from '../../consts';
 
 export async function getStaticPaths() {
   const proposals = await getCollection('proposals', ({ data }) => !data.draft);
-  const topics = new Set(proposals.flatMap((proposal) => proposal.data.topics));
-  return [...topics].map((topic) => ({
-    params: { topic: topicSlug(topic) },
-    props: { topic, proposals: proposals.filter((proposal) => proposal.data.topics.includes(topic)) },
+  const domains = new Set(proposals.flatMap((proposal) => proposal.data.domains));
+  return [...domains].map((topic) => ({
+    params: { topic: slugify(topic) },
+    props: { topic, proposals: proposals.filter((proposal) => proposal.data.domains.includes(topic)) },
   }));
 }
 

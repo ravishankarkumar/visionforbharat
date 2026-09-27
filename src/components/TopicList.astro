@@ -1,5 +1,5 @@
 ---
-import { topicSlug } from '../consts';
+import { slugify } from '../consts';
 
 interface Props {
   topics: Array<{ name: string; count: number }>;
@@ -11,7 +11,7 @@ const { topics } = Astro.props;
 <ul class="topic-list">
   {topics.map((topic) => (
     <li>
-      <a href={`/topics/${topicSlug(topic.name)}/`}>
+      <a href={`/domains/${slugify(topic.name)}/`}>
         <span>{topic.name}</span>
         <span class="topic-count">{String(topic.count).padStart(2, '0')}</span>
       </a>

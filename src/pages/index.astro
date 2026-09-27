@@ -12,7 +12,7 @@ const proposals = (await getCollection('proposals', ({ data }) => !data.draft))
 const featured = proposals.filter((proposal) => proposal.data.featured);
 const topicCounts = new Map<string, number>();
 for (const proposal of proposals) {
-  for (const topic of proposal.data.topics) topicCounts.set(topic, (topicCounts.get(topic) ?? 0) + 1);
+  for (const domain of proposal.data.domains) topicCounts.set(domain, (topicCounts.get(domain) ?? 0) + 1);
 }
 const topics = [...topicCounts].map(([name, count]) => ({ name, count }));
 const jsonLd = {
@@ -57,7 +57,7 @@ const jsonLd = {
           <p class="kicker">Day-one foundations</p>
           <h2 id="foundations-title">Three places to begin.</h2>
         </div>
-        <p>Early proposals across work, mobility, and democratic administration. Each is a starting point for scrutiny—not a finished answer.</p>
+        <p>Early proposals across work, public experience, and democratic administration. Each is a starting point for scrutiny—not a finished answer.</p>
       </div>
       <div class="proposal-list">
         {featured.map((proposal, index) => <ProposalCard proposal={proposal} index={index + 1} />)}

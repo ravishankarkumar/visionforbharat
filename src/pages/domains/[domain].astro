@@ -1,0 +1,26 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProposalCard from '../../components/ProposalCard.astro';
+import { slugify } from '../../consts';
+
+export async function getStaticPaths() {
+  const proposals = await getCollection('proposals', ({ data }) => !data.draft);
+  const domains = new Set(proposals.flatMap((proposal) => proposal.data.domains));
+  return [...domains].map((domain) => ({
+    params: { domain: slugify(domain) },
+    props: { domain, proposals: proposals.filter((proposal) => proposal.data.domains.includes(domain)) },
+  }));
+}
+
+interface Props { domain: string; proposals: CollectionEntry<'proposals'>[] }
+const { domain, proposals } = Astro.props;
+---
+
+<BaseLayout title={domain} description={`Ideas about ${domain.toLowerCase()} for India’s long-term future.`}>
+  <header class="page-intro"><div class="shell"><p class="kicker">Domain</p><h1>{domain}</h1><p class="lead">Foundations, proposals, and case studies connected to this area of public life.</p></div></header>
+  <section class="archive shell" aria-label={`Ideas about ${domain}`}>
+    <div class="archive-note"><span>{proposals.length} {proposals.length === 1 ? 'idea' : 'ideas'}</span><a href="/ideas/">View the complete catalogue</a></div>
+    <div class="proposal-list">{proposals.map((proposal, index) => <ProposalCard proposal={proposal} index={index + 1} />)}</div>
+  </section>
+</BaseLayout>

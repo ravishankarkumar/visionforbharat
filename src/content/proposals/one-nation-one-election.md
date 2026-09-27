@@ -4,7 +4,8 @@ summary: Examine whether more predictable election calendars could protect gover
 thesis: Election scheduling should balance the value of uninterrupted administration with the democratic necessity of responsive and independent mandates.
 publishedAt: 2026-09-27
 status: seed
-topics:
+entryType: proposal
+domains:
   - Federalism & Governance
 tags:
   - elections
@@ -12,7 +13,7 @@ tags:
   - public administration
 featured: true
 related:
-  - one-nation-one-vehicle-registration
+  - one-nation-one-experience
 draft: false
 ---
 

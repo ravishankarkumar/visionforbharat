@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { formatDate, STATUS_LABELS, topicSlug } from '../consts';
+import { formatDate, slugify, STATUS_LABELS, TYPE_LABELS } from '../consts';
 
 interface Props {
   proposal: CollectionEntry<'proposals'>;
@@ -8,14 +8,16 @@ interface Props {
 }
 
 const { proposal, index } = Astro.props;
-const { title, summary, status, topics, publishedAt } = proposal.data;
+const { title, summary, status, entryType, domains, publishedAt } = proposal.data;
 ---
 
 <article class="proposal-card">
   {index && <span class="proposal-number" aria-hidden="true">{String(index).padStart(2, '0')}</span>}
   <div class="proposal-card-body">
     <div class="eyebrow-row">
-      <a class="topic-link" href={`/topics/${topicSlug(topics[0])}/`}>{topics[0]}</a>
+      <a class="topic-link" href={`/domains/${slugify(domains[0])}/`}>{domains[0]}</a>
+      <span>·</span>
+      <span>{TYPE_LABELS[entryType]}</span>
       <span>·</span>
       <span>{STATUS_LABELS[status]}</span>
     </div>

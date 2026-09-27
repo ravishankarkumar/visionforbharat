@@ -2,23 +2,43 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProposalCard from '../../components/ProposalCard.astro';
+import { slugify, TYPE_LABELS, TYPE_PLURAL_LABELS } from '../../consts';
 
 const proposals = (await getCollection('proposals', ({ data }) => !data.draft))
   .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const types = ['foundation', 'proposal', 'case-study'] as const;
+const domains = [...new Set(proposals.flatMap((proposal) => proposal.data.domains))].sort();
+const series = [...new Map(
+  proposals.filter((proposal) => proposal.data.series).map((proposal) => [proposal.data.series!.slug, proposal.data.series!])
+).values()];
 ---
 
-<BaseLayout title="Ideas" description="Constructive proposals and long-term questions for India’s future.">
+<BaseLayout title="Catalogue of Ideas" description="A growing catalogue of foundations, proposals, and case studies for India’s future.">
   <header class="page-intro">
     <div class="shell">
-      <p class="kicker">The archive</p>
+      <p class="kicker">The catalogue</p>
       <h1>Ideas built to be examined.</h1>
-      <p class="lead">A growing record of proposals, counterarguments, and open questions. Every entry shows its editorial status because an honest draft is more useful than artificial certainty.</p>
+      <p class="lead">A growing record of foundations, proposals, and case studies. Every entry shows what it is and how far it has developed.</p>
     </div>
   </header>
-  <section class="archive shell" aria-label="All ideas">
-    <div class="archive-note"><span>{proposals.length} proposals</span><span>Newest first</span></div>
-    <div class="proposal-list">
-      {proposals.map((proposal, index) => <ProposalCard proposal={proposal} index={index + 1} />)}
-    </div>
-  </section>
+  <div class="catalogue-nav shell" aria-label="Browse the catalogue">
+    <div><span>By type</span>{types.map((type) => <a href={`#${type}`}>{TYPE_LABELS[type]}</a>)}</div>
+    <div><span>By domain</span>{domains.map((domain) => <a href={`/domains/${slugify(domain)}/`}>{domain}</a>)}</div>
+    {series.length > 0 && <div><span>By series</span>{series.map((item) => <a href={`/series/${item.slug}/`}>{item.name}</a>)}</div>}
+  </div>
+  <div class="catalogue shell">
+    {types.map((type) => {
+      const entries = proposals.filter((proposal) => proposal.data.entryType === type);
+      if (entries.length === 0) return null;
+      return (
+        <section class="catalogue-group" id={type} aria-labelledby={`${type}-title`}>
+          <div class="catalogue-heading">
+            <div><p class="kicker">{TYPE_LABELS[type]}</p><h2 id={`${type}-title`}>{TYPE_PLURAL_LABELS[type]}</h2></div>
+            <span>{String(entries.length).padStart(2, '0')}</span>
+          </div>
+          <div class="proposal-list">{entries.map((proposal, index) => <ProposalCard proposal={proposal} index={index + 1} />)}</div>
+        </section>
+      );
+    })}
+  </div>
 </BaseLayout>
