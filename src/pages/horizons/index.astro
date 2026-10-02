@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const proposals = await getCollection('proposals', ({ data }) => !data.draft);
+const editorials = await getCollection('editorials', ({ data }) => !data.draft);
+const horizons = [
+  { value: '2050', name: 'The action horizon', description: 'Reforms close enough to become demands, programmes, and measurable institutional change.' },
+  { value: '2075', name: 'The inheritance horizon', description: 'Questions considered beyond immediate personal, electoral, and political reward.' },
+];
+---
+
+<BaseLayout title="Horizons" description="Browse work framed for the action horizon of 2050 and the inheritance horizon of 2075.">
+  <header class="page-intro"><div class="shell"><p class="kicker">Time as a discipline</p><h1>Two horizons, one long view.</h1><p class="lead">2050 asks what can become achievable within a working lifetime. 2075 asks what should endure beyond our immediate stake in the answer.</p></div></header>
+  <section class="archive shell" aria-label="All horizons">
+    <ul class="domain-grid">
+      {horizons.map((horizon) => {
+        const count = proposals.filter((item) => item.data.horizons.includes(horizon.value as '2050' | '2075')).length + editorials.filter((item) => item.data.horizons.includes(horizon.value as '2050' | '2075')).length;
+        return <li><a href={`/horizons/${horizon.value}/`}><span>{horizon.value}<small class="grid-description">{horizon.name}<br />{horizon.description}</small></span><small>{count} {count === 1 ? 'entry' : 'entries'}</small></a></li>;
+      })}
+    </ul>
+  </section>
+</BaseLayout>

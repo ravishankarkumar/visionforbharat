@@ -1,0 +1,26 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProposalCard from '../../components/ProposalCard.astro';
+import EditorialCard from '../../components/EditorialCard.astro';
+import { slugify } from '../../consts';
+
+export async function getStaticPaths() {
+  const proposals = await getCollection('proposals', ({ data }) => !data.draft);
+  const editorials = await getCollection('editorials', ({ data }) => !data.draft);
+  const places = new Set(['India', 'Bihar', ...proposals.flatMap((item) => item.data.places), ...editorials.flatMap((item) => item.data.places)]);
+  return [...places].map((place) => ({ params: { place: slugify(place) }, props: { place, proposals: proposals.filter((item) => item.data.places.includes(place)), editorials: editorials.filter((item) => item.data.places.includes(place)) } }));
+}
+
+interface Props { place: string; proposals: CollectionEntry<'proposals'>[]; editorials: CollectionEntry<'editorials'>[] }
+const { place, proposals, editorials } = Astro.props;
+---
+
+<BaseLayout title={place} description={`Ideas and essays considered through the institutions and experience of ${place}.`}>
+  <header class="page-intro"><div class="shell"><p class="kicker">Place</p><h1>{place}</h1><p class="lead">{place === 'India' ? 'Work framed at national scale, without treating regional diversity as an inconvenience.' : `A grounded lens for ideas that begin in ${place} or test broader principles there.`}</p></div></header>
+  <div class="catalogue shell">
+    {proposals.length > 0 && <section class="catalogue-group"><div class="catalogue-heading"><div><p class="kicker">Catalogue</p><h2>Ideas</h2></div><span>{String(proposals.length).padStart(2, '0')}</span></div><div class="proposal-list">{proposals.map((item, index) => <ProposalCard proposal={item} index={index + 1} />)}</div></section>}
+    {editorials.length > 0 && <section class="catalogue-group"><div class="catalogue-heading"><div><p class="kicker">Written voice</p><h2>Essays</h2></div><span>{String(editorials.length).padStart(2, '0')}</span></div><div class="editorial-list">{editorials.map((item, index) => <EditorialCard editorial={item} index={index + 1} />)}</div></section>}
+    {proposals.length === 0 && editorials.length === 0 && <section class="empty-place"><p class="kicker">Work in preparation</p><h2>No public entries yet.</h2><p>Research seeds for {place} are being developed privately and will appear here only when they are ready for public scrutiny.</p></section>}
+  </div>
+</BaseLayout>

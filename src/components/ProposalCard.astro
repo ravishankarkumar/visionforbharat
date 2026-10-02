@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { formatDate, slugify, STATUS_LABELS, TYPE_LABELS } from '../consts';
+import { formatDate, slugify } from '../consts';
 
 interface Props {
   proposal: CollectionEntry<'proposals'>;
@@ -8,23 +8,19 @@ interface Props {
 }
 
 const { proposal, index } = Astro.props;
-const { title, summary, status, entryType, domains, publishedAt } = proposal.data;
+const { title, summary, domains, publishedAt, updatedAt } = proposal.data;
 ---
 
 <article class="proposal-card">
   {index && <span class="proposal-number" aria-hidden="true">{String(index).padStart(2, '0')}</span>}
   <div class="proposal-card-body">
     <div class="eyebrow-row">
-      <a class="topic-link" href={`/domains/${slugify(domains[0])}/`}>{domains[0]}</a>
-      <span>·</span>
-      <span>{TYPE_LABELS[entryType]}</span>
-      <span>·</span>
-      <span>{STATUS_LABELS[status]}</span>
+      <a class="topic-link" href={`/themes/${slugify(domains[0])}/`}>{domains[0]}</a>
     </div>
     <h3><a href={`/ideas/${proposal.id}/`}>{title}</a></h3>
     <p>{summary}</p>
     <div class="card-meta">
-      <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time>
+      <span>Created <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time>{updatedAt && <> · Updated <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time></>}</span>
       <a class="read-link" href={`/ideas/${proposal.id}/`} aria-label={`Read ${title}`}>
         Read idea <span aria-hidden="true">↗</span>
       </a>

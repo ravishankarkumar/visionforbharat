@@ -1,12 +1,14 @@
 ---
 title: One Nation, One Vehicle Registration
 summary: A special-case exploration of one lifelong national registration that follows the vehicle without burdening its owner after an interstate move.
-thesis: A lawfully registered vehicle should have one national identity for its entire lifecycle; how governments divide regulation, taxation, enforcement, and revenue is not the owner’s administrative burden.
 publishedAt: 2026-09-27
-status: seed
-entryType: case-study
+updatedAt: 2026-10-01
 domains:
   - Governance & Mobility
+horizons:
+  - '2050'
+places:
+  - India
 tags:
   - federalism
   - digital public infrastructure
@@ -14,13 +16,6 @@ tags:
 featured: false
 related:
   - one-nation-one-experience
-seriesLabel: Case Study 01 · One Nation, One Experience
-seriesUrl: /ideas/one-nation-one-experience/
-series:
-  name: One Nation, One Experience
-  slug: one-nation-one-experience
-  order: 1
-  parentId: one-nation-one-experience
 draft: false
 ---
 

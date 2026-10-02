@@ -1,0 +1,36 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProposalCard from '../../components/ProposalCard.astro';
+import EditorialCard from '../../components/EditorialCard.astro';
+
+const horizonCopy = {
+  '2050': { kicker: 'The action horizon', description: 'Ideas and arguments close enough to become demands, programmes, and measurable institutional change within the coming decades.' },
+  '2075': { kicker: 'The inheritance horizon', description: 'Ideas and arguments considered beyond immediate personal, electoral, and political reward.' },
+};
+
+export async function getStaticPaths() {
+  const proposals = await getCollection('proposals', ({ data }) => !data.draft);
+  const editorials = await getCollection('editorials', ({ data }) => !data.draft);
+  return (['2050', '2075'] as const).map((horizon) => ({
+    params: { horizon },
+    props: {
+      horizon,
+      proposals: proposals.filter((item) => item.data.horizons.includes(horizon)),
+      editorials: editorials.filter((item) => item.data.horizons.includes(horizon)),
+    },
+  }));
+}
+
+interface Props { horizon: '2050' | '2075'; proposals: CollectionEntry<'proposals'>[]; editorials: CollectionEntry<'editorials'>[] }
+const { horizon, proposals, editorials } = Astro.props;
+const copy = horizonCopy[horizon];
+---
+
+<BaseLayout title={`${horizon} horizon`} description={copy.description}>
+  <header class="page-intro"><div class="shell"><p class="kicker">{copy.kicker}</p><h1>{horizon}</h1><p class="lead">{copy.description}</p></div></header>
+  <div class="catalogue shell">
+    {proposals.length > 0 && <section class="catalogue-group"><div class="catalogue-heading"><div><p class="kicker">Catalogue</p><h2>Ideas</h2></div><span>{String(proposals.length).padStart(2, '0')}</span></div><div class="proposal-list">{proposals.map((item, index) => <ProposalCard proposal={item} index={index + 1} />)}</div></section>}
+    {editorials.length > 0 && <section class="catalogue-group"><div class="catalogue-heading"><div><p class="kicker">Written voice</p><h2>Essays</h2></div><span>{String(editorials.length).padStart(2, '0')}</span></div><div class="editorial-list">{editorials.map((item, index) => <EditorialCard editorial={item} index={index + 1} />)}</div></section>}
+  </div>
+</BaseLayout>

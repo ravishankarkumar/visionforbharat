@@ -1,0 +1,21 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { slugify } from '../../consts';
+
+const proposals = await getCollection('proposals', ({ data }) => !data.draft);
+const essays = await getCollection('editorials', ({ data }) => !data.draft);
+const counts = new Map<string, number>();
+for (const proposal of proposals) for (const theme of proposal.data.domains) counts.set(theme, (counts.get(theme) ?? 0) + 1);
+for (const essay of essays) for (const theme of essay.data.domains) counts.set(theme, (counts.get(theme) ?? 0) + 1);
+const themes = [...counts].sort(([a], [b]) => a.localeCompare(b));
+---
+
+<BaseLayout title="Themes" description="Explore the interconnected map of ideas and essays across different spheres of public life.">
+  <header class="page-intro"><div class="shell"><p class="kicker">A connected worldview</p><h1>Themes across public life.</h1><p class="lead">Themes reveal connections across Ideas and Essays. They are lenses for exploration, not rigid compartments.</p></div></header>
+  <section class="archive shell" aria-label="All themes">
+    <ul class="domain-grid">
+      {themes.map(([theme, count]) => <li><a href={`/themes/${slugify(theme)}/`}><span>{theme}</span><small>{count} {count === 1 ? 'entry' : 'entries'}</small></a></li>)}
+    </ul>
+  </section>
+</BaseLayout>

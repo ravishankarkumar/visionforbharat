@@ -1,6 +1,6 @@
 # Vision for Bharat, 2075
 
-A quiet, long-term journal of constructive ideas and policy proposals for India’s future.
+A personal, long-view collection of ideas and essays about India’s future.
 
 ## Local development
 
@@ -22,7 +22,12 @@ The production-ready static site is written to `dist/`.
 
 ## Content
 
-Proposal essays live in `src/content/proposals/`. Their frontmatter is validated by the collection schema in `src/content.config.ts`. Set `draft: true` to exclude an unfinished entry from routes, archives, RSS, and the sitemap.
+The journal has two content collections, both validated by `src/content.config.ts`:
+
+- Ideas live in `src/content/proposals/` and do not require a prescribed article structure.
+- Essays live in `src/content/editorials/` as short-form sparks or long-form deep dives.
+
+Set `draft: true` to exclude unfinished work from public routes, lists, and the sitemap. Themes, horizons, and places are shared browsing lenses across both collections. The directory names `proposals` and `editorials` are older internal implementation details.
 
 ## Domain and deployment
 

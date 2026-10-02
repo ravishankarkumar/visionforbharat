@@ -1,25 +1,11 @@
 export const SITE_TITLE = 'Vision for Bharat, 2075';
 export const SITE_DESCRIPTION =
-  'A quiet, long-term journal of constructive ideas and policy proposals for India’s future.';
+  'A personal, long-view collection of ideas and essays about India’s future.';
 export const SITE_URL = 'https://visionforbharat.com';
 
-export const STATUS_LABELS = {
-  seed: 'Seed idea',
-  draft: 'Working draft',
-  developed: 'Developed proposal',
-  revised: 'Revised proposal',
-} as const;
-
-export const TYPE_LABELS = {
-  foundation: 'Foundation',
-  proposal: 'Proposal',
-  'case-study': 'Case study',
-} as const;
-
-export const TYPE_PLURAL_LABELS = {
-  foundation: 'Foundations',
-  proposal: 'Proposals',
-  'case-study': 'Case studies',
+export const EDITORIAL_FORMAT_LABELS = {
+  note: 'Spark',
+  essay: 'Deep dive',
 } as const;
 
 export function slugify(value: string) {

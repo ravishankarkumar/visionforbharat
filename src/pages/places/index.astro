@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { slugify } from '../../consts';
+
+const proposals = await getCollection('proposals', ({ data }) => !data.draft);
+const editorials = await getCollection('editorials', ({ data }) => !data.draft);
+const names = [...new Set(['India', 'Bihar', ...proposals.flatMap((item) => item.data.places), ...editorials.flatMap((item) => item.data.places)])].sort();
+---
+
+<BaseLayout title="Places" description="Browse national ideas and work grounded in particular states and places.">
+  <header class="page-intro"><div class="shell"><p class="kicker">Geographic lenses</p><h1>National ambition, grounded in place.</h1><p class="lead">Bharat is not an abstraction. Ideas can address the country as a whole or begin from the institutions, experience, and possibilities of a particular state.</p></div></header>
+  <section class="archive shell" aria-label="All places">
+    <ul class="domain-grid">
+      {names.map((place) => {
+        const count = proposals.filter((item) => item.data.places.includes(place)).length + editorials.filter((item) => item.data.places.includes(place)).length;
+        return <li><a href={`/places/${slugify(place)}/`}><span>{place}</span><small>{count} {count === 1 ? 'entry' : 'entries'}</small></a></li>;
+      })}
+    </ul>
+    <p class="catalogue-footnote">Draft work is not included in these public counts.</p>
+  </section>
+</BaseLayout>

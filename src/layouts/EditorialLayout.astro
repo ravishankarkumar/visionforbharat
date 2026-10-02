@@ -1,0 +1,60 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import ProposalCard from '../components/ProposalCard.astro';
+import EditorialCard from '../components/EditorialCard.astro';
+import { EDITORIAL_FORMAT_LABELS, formatDate, slugify } from '../consts';
+
+interface Props {
+  editorial: CollectionEntry<'editorials'>;
+  relatedIdeas: CollectionEntry<'proposals'>[];
+  relatedEditorials: CollectionEntry<'editorials'>[];
+}
+
+const { editorial, relatedIdeas, relatedEditorials } = Astro.props;
+const { title, summary, publishedAt, updatedAt, format, domains, horizons, places } = editorial.data;
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description: summary,
+  datePublished: publishedAt.toISOString(),
+  dateModified: (updatedAt ?? publishedAt).toISOString(),
+  mainEntityOfPage: new URL(`/essays/${editorial.id}/`, Astro.site).toString(),
+  publisher: { '@type': 'Organization', name: 'Vision for Bharat' },
+};
+---
+
+<BaseLayout title={title} description={summary} type="article">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+  <article class:list={['article-shell', 'editorial-article', `editorial-article--${format}`]}>
+    <header class="article-header shell narrow">
+      <a class="back-link" href="/essays/">← All essays</a>
+      <div class="eyebrow-row article-topics">
+        <span>{EDITORIAL_FORMAT_LABELS[format]}</span>
+        {domains.map((domain) => <><span>·</span><a class="topic-link" href={`/themes/${slugify(domain)}/`}>{domain}</a></>)}
+      </div>
+      <h1>{title}</h1>
+      <p class="article-thesis">{summary}</p>
+      <dl class="article-meta">
+        <div><dt>Created</dt><dd><time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time></dd></div>
+        {updatedAt && <div><dt>Updated</dt><dd><time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time></dd></div>}
+        <div><dt>Horizon</dt><dd>{horizons.map((horizon, i) => <>{i > 0 && ', '}<a href={`/horizons/${horizon}/`}>{horizon}</a></>)}</dd></div>
+        <div><dt>Place</dt><dd>{places.map((place, i) => <>{i > 0 && ', '}<a href={`/places/${slugify(place)}/`}>{place}</a></>)}</dd></div>
+      </dl>
+    </header>
+
+    <div class:list={['editorial-body', 'shell', format === 'note' ? 'narrow' : '']}>
+      <div class="prose"><slot /></div>
+    </div>
+
+    {(relatedIdeas.length > 0 || relatedEditorials.length > 0) && (
+      <section class="related shell" aria-labelledby="related-title">
+        <p class="kicker">Continue reading</p>
+        <h2 id="related-title">Related work</h2>
+        {relatedIdeas.length > 0 && <div class="proposal-list compact">{relatedIdeas.map((item) => <ProposalCard proposal={item} />)}</div>}
+        {relatedEditorials.length > 0 && <div class="editorial-list compact">{relatedEditorials.map((item) => <EditorialCard editorial={item} />)}</div>}
+      </section>
+    )}
+  </article>
+</BaseLayout>

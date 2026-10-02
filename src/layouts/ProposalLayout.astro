@@ -2,7 +2,7 @@
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import ProposalCard from '../components/ProposalCard.astro';
-import { formatDate, slugify, STATUS_LABELS, TYPE_LABELS } from '../consts';
+import { formatDate, slugify } from '../consts';
 
 interface Props {
   proposal: CollectionEntry<'proposals'>;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { proposal, related } = Astro.props;
-const { title, summary, thesis, publishedAt, updatedAt, status, entryType, domains, changeNote, seriesLabel, seriesUrl } = proposal.data;
+const { title, summary, publishedAt, updatedAt, domains, horizons, places } = proposal.data;
 const articleJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -28,58 +28,29 @@ const articleJsonLd = {
   <article class="article-shell">
     <header class="article-header shell narrow">
       <a class="back-link" href="/ideas/">← All ideas</a>
-      {seriesLabel && (
-        <p class="series-label">
-          {seriesUrl ? <a href={seriesUrl}>{seriesLabel}</a> : seriesLabel}
-        </p>
-      )}
       <div class="eyebrow-row article-topics">
         {domains.map((domain, i) => (
           <>
             {i > 0 && <span>·</span>}
-            <a class="topic-link" href={`/domains/${slugify(domain)}/`}>{domain}</a>
+            <a class="topic-link" href={`/themes/${slugify(domain)}/`}>{domain}</a>
           </>
         ))}
       </div>
       <h1>{title}</h1>
-      <p class="article-thesis">{thesis}</p>
+      <p class="article-thesis">{summary}</p>
       <dl class="article-meta">
-        <div><dt>Type</dt><dd>{TYPE_LABELS[entryType]}</dd></div>
-        <div><dt>Status</dt><dd>{STATUS_LABELS[status]}</dd></div>
-        <div><dt>Published</dt><dd><time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time></dd></div>
-        {updatedAt && <div><dt>Revised</dt><dd><time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time></dd></div>}
+        <div><dt>Created</dt><dd><time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time></dd></div>
+        <div><dt>Horizon</dt><dd>{horizons.map((horizon, i) => <>{i > 0 && ', '}<a href={`/horizons/${horizon}/`}>{horizon}</a></>)}</dd></div>
+        <div><dt>Place</dt><dd>{places.map((place, i) => <>{i > 0 && ', '}<a href={`/places/${slugify(place)}/`}>{place}</a></>)}</dd></div>
+        {updatedAt && <div><dt>Updated</dt><dd><time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time></dd></div>}
       </dl>
-      <div class="draft-note">
-        <strong>A proposal in progress.</strong>
-        <span>This essay records a direction for debate, not a final legislative design.</span>
-      </div>
     </header>
 
-    <div class="article-grid shell">
-      <aside class="article-aside" aria-label="On this page">
-        <p>On this page</p>
-        <nav>
-          <a href="#in-brief">In brief</a>
-          <a href="#context">Context</a>
-          <a href="#blueprint">The blueprint</a>
-          <a href="#implementation">Implementation</a>
-          <a href="#trade-offs">Trade-offs</a>
-          <a href="#open-questions">Open questions</a>
-        </nav>
-        <button class="print-button" onclick="window.print()">Print / save PDF</button>
-      </aside>
+    <div class="article-simple shell narrow">
       <div class="article-body prose">
         <slot />
       </div>
     </div>
-
-    {changeNote && (
-      <section class="revision shell narrow" aria-labelledby="revision-title">
-        <p class="kicker">Revision note</p>
-        <h2 id="revision-title">How this idea has changed</h2>
-        <p>{changeNote}</p>
-      </section>
-    )}
 
     {related.length > 0 && (
       <section class="related shell" aria-labelledby="related-title">

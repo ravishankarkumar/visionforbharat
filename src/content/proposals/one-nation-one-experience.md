@@ -1,12 +1,15 @@
 ---
 title: One Nation, One Experience
 summary: Preserve India’s federal institutions while making essential services, credentials, registrations, and entitlements feel portable across the country.
-thesis: India does not need one authority for every service; it needs a common citizen experience in which different systems work together without repeatedly placing the burden on the individual.
 publishedAt: 2026-09-27
-status: seed
-entryType: foundation
+updatedAt: 2026-10-01
 domains:
   - Governance & Public Infrastructure
+horizons:
+  - '2050'
+  - '2075'
+places:
+  - India
 tags:
   - interoperability
   - federalism

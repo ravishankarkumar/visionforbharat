@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import EditorialCard from '../../components/EditorialCard.astro';
+
+const essays = (await getCollection('editorials', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+const sparks = essays.filter((item) => item.data.format === 'note');
+const deepDives = essays.filter((item) => item.data.format === 'essay');
+---
+
+<BaseLayout title="Essays" description="The written voice of Vision for Bharat, from short-form sparks to considered deep dives.">
+  <header class="page-intro">
+    <div class="shell"><p class="kicker">Written voice</p><h1>From passing sparks to deep dives.</h1><p class="lead">Some thoughts need only a few paragraphs. Others invite a longer wandering. Both belong here, with no fixed publishing rhythm or prescribed shape.</p></div>
+  </header>
+  <div class="catalogue-nav shell" aria-label="Browse essays">
+    <div><span>By format</span><a href="#sparks">Sparks</a><a href="#deep-dives">Deep dives</a></div>
+    <div><span>By horizon</span><a href="/horizons/2050/">2050</a><a href="/horizons/2075/">2075</a></div>
+  </div>
+  <div class="catalogue shell">
+    <section class="catalogue-group" id="sparks" aria-labelledby="sparks-title">
+      <div class="catalogue-heading"><div><p class="kicker">Short form</p><h2 id="sparks-title">Sparks</h2></div><span>{String(sparks.length).padStart(2, '0')}</span></div>
+      {sparks.length > 0 ? <div class="editorial-list">{sparks.map((item, index) => <EditorialCard editorial={item} index={index + 1} />)}</div> : <p class="empty-state">No short-form sparks have been published yet.</p>}
+    </section>
+    <section class="catalogue-group" id="deep-dives" aria-labelledby="deep-dives-title">
+      <div class="catalogue-heading"><div><p class="kicker">Long form</p><h2 id="deep-dives-title">Deep dives</h2></div><span>{String(deepDives.length).padStart(2, '0')}</span></div>
+      {deepDives.length > 0 ? <div class="editorial-list">{deepDives.map((item, index) => <EditorialCard editorial={item} index={index + 1} />)}</div> : <p class="empty-state">Deep dives will appear here when a subject needs a developed written argument.</p>}
+    </section>
+  </div>
+</BaseLayout>

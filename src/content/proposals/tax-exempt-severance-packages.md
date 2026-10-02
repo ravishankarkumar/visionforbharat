@@ -1,12 +1,14 @@
 ---
 title: Tax-Exempt Severance Packages
 summary: Treat qualifying severance as a transition cushion for displaced workers rather than ordinary income arriving at the worst possible moment.
-thesis: When employment ends involuntarily, public policy should preserve more of the worker’s limited transition capital.
 publishedAt: 2026-09-27
-status: seed
-entryType: proposal
+updatedAt: 2026-10-01
 domains:
   - Economy & Labour
+horizons:
+  - '2050'
+places:
+  - India
 tags:
   - worker security
   - taxation

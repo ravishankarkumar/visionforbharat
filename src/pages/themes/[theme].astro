@@ -1,0 +1,28 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProposalCard from '../../components/ProposalCard.astro';
+import EditorialCard from '../../components/EditorialCard.astro';
+import { slugify } from '../../consts';
+
+export async function getStaticPaths() {
+  const proposals = await getCollection('proposals', ({ data }) => !data.draft);
+  const essays = await getCollection('editorials', ({ data }) => !data.draft);
+  const themes = new Set([...proposals.flatMap((proposal) => proposal.data.domains), ...essays.flatMap((essay) => essay.data.domains)]);
+  return [...themes].map((theme) => ({
+    params: { theme: slugify(theme) },
+    props: { theme, proposals: proposals.filter((proposal) => proposal.data.domains.includes(theme)), essays: essays.filter((essay) => essay.data.domains.includes(theme)) },
+  }));
+}
+
+interface Props { theme: string; proposals: CollectionEntry<'proposals'>[]; essays: CollectionEntry<'editorials'>[] }
+const { theme, proposals, essays } = Astro.props;
+---
+
+<BaseLayout title={theme} description={`Ideas and essays connected by the theme of ${theme.toLowerCase()}.`}>
+  <header class="page-intro"><div class="shell"><p class="kicker">Theme</p><h1>{theme}</h1><p class="lead">Ideas and writing that happen to meet around this part of public life.</p></div></header>
+  <div class="catalogue shell">
+    {proposals.length > 0 && <section class="catalogue-group" aria-label={`Ideas about ${theme}`}><div class="catalogue-heading"><div><p class="kicker">Thoughts and possibilities</p><h2>Ideas</h2></div><span>{String(proposals.length).padStart(2, '0')}</span></div><div class="proposal-list">{proposals.map((proposal, index) => <ProposalCard proposal={proposal} index={index + 1} />)}</div></section>}
+    {essays.length > 0 && <section class="catalogue-group" aria-label={`Essays about ${theme}`}><div class="catalogue-heading"><div><p class="kicker">Written voice</p><h2>Essays</h2></div><span>{String(essays.length).padStart(2, '0')}</span></div><div class="editorial-list">{essays.map((essay, index) => <EditorialCard editorial={essay} index={index + 1} />)}</div></section>}
+  </div>
+</BaseLayout>

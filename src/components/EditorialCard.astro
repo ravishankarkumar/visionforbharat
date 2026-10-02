@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { EDITORIAL_FORMAT_LABELS, formatDate, slugify } from '../consts';
+
+interface Props {
+  editorial: CollectionEntry<'editorials'>;
+  index?: number;
+}
+
+const { editorial, index } = Astro.props;
+const { title, summary, format, domains, publishedAt, updatedAt, horizons } = editorial.data;
+---
+
+<article class:list={['editorial-card', `editorial-card--${format}`]}>
+  {index && <span class="proposal-number" aria-hidden="true">{String(index).padStart(2, '0')}</span>}
+  <div class="editorial-card-body">
+    <div class="eyebrow-row">
+      <span>{EDITORIAL_FORMAT_LABELS[format]}</span>
+      <span>·</span>
+      <a class="topic-link" href={`/themes/${slugify(domains[0])}/`}>{domains[0]}</a>
+    </div>
+    <h3><a href={`/essays/${editorial.id}/`}>{title}</a></h3>
+    <p>{summary}</p>
+    <div class="card-meta">
+      <span>Created <time datetime={publishedAt.toISOString()}>{formatDate(publishedAt)}</time>{updatedAt && <> · Updated <time datetime={updatedAt.toISOString()}>{formatDate(updatedAt)}</time></>} · {horizons.join(' / ')}</span>
+      <a class="read-link" href={`/essays/${editorial.id}/`} aria-label={`Read ${title}`}>
+        Read {format} <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  </div>
+</article>

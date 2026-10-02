@@ -7,26 +7,34 @@ const proposals = defineCollection({
   schema: z.object({
     title: z.string(),
     summary: z.string(),
-    thesis: z.string(),
     publishedAt: z.coerce.date(),
-    updatedAt: z.coerce.date().optional(),
-    status: z.enum(['seed', 'draft', 'developed', 'revised']),
-    entryType: z.enum(['foundation', 'proposal', 'case-study']),
+    updatedAt: z.coerce.date(),
     domains: z.array(z.string()).min(1),
+    horizons: z.array(z.enum(['2050', '2075'])).min(1).default(['2075']),
+    places: z.array(z.string()).min(1).default(['India']),
     tags: z.array(z.string()).optional(),
     featured: z.boolean().default(false),
     related: z.array(z.string()).optional(),
-    seriesLabel: z.string().optional(),
-    seriesUrl: z.string().optional(),
-    series: z.object({
-      name: z.string(),
-      slug: z.string(),
-      order: z.number().int().positive().optional(),
-      parentId: z.string().optional(),
-    }).optional(),
-    changeNote: z.string().optional(),
     draft: z.boolean().default(false),
   }),
 });
 
-export const collections = { proposals };
+const editorials = defineCollection({
+  loader: glob({ base: './src/content/editorials', pattern: '**/*.{md,mdx}' }),
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    publishedAt: z.coerce.date(),
+    updatedAt: z.coerce.date(),
+    format: z.enum(['note', 'essay']),
+    domains: z.array(z.string()).min(1),
+    horizons: z.array(z.enum(['2050', '2075'])).min(1),
+    places: z.array(z.string()).min(1).default(['India']),
+    relatedIdeas: z.array(z.string()).optional(),
+    relatedEditorials: z.array(z.string()).optional(),
+    featured: z.boolean().default(false),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { proposals, editorials };

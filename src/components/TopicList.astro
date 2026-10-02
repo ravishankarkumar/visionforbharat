@@ -11,7 +11,7 @@ const { topics } = Astro.props;
 <ul class="topic-list">
   {topics.map((topic) => (
     <li>
-      <a href={`/domains/${slugify(topic.name)}/`}>
+      <a href={`/themes/${slugify(topic.name)}/`}>
         <span>{topic.name}</span>
         <span class="topic-count">{String(topic.count).padStart(2, '0')}</span>
       </a>

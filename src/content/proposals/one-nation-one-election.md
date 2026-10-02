@@ -1,12 +1,14 @@
 ---
 title: One Nation, One Election
 summary: Examine whether more predictable election calendars could protect governing time without weakening accountability, federal choice, or constitutional stability.
-thesis: Election scheduling should balance the value of uninterrupted administration with the democratic necessity of responsive and independent mandates.
 publishedAt: 2026-09-27
-status: seed
-entryType: proposal
+updatedAt: 2026-10-01
 domains:
   - Federalism & Governance
+horizons:
+  - '2050'
+places:
+  - India
 tags:
   - elections
   - constitutional design

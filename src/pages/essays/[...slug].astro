@@ -1,0 +1,25 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import EditorialLayout from '../../layouts/EditorialLayout.astro';
+
+export async function getStaticPaths() {
+  const essays = await getCollection('editorials', ({ data }) => !data.draft);
+  const proposals = await getCollection('proposals', ({ data }) => !data.draft);
+  return essays.map((editorial) => ({ params: { slug: editorial.id }, props: { editorial, essays, proposals } }));
+}
+
+interface Props {
+  editorial: CollectionEntry<'editorials'>;
+  essays: CollectionEntry<'editorials'>[];
+  proposals: CollectionEntry<'proposals'>[];
+}
+
+const { editorial, essays, proposals } = Astro.props;
+const { Content } = await render(editorial);
+const relatedIdeas = proposals.filter((item) => editorial.data.relatedIdeas?.includes(item.id));
+const relatedEditorials = essays.filter((item) => editorial.data.relatedEditorials?.includes(item.id));
+---
+
+<EditorialLayout editorial={editorial} relatedIdeas={relatedIdeas} relatedEditorials={relatedEditorials}>
+  <Content />
+</EditorialLayout>
